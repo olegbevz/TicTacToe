@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="3" android:versionName="1.0.3" package="tictactoe.android">
+	<uses-sdk android:targetSdkVersion="7" />
+	<application android:label="Tic Tac Toe" android:icon="@drawable/icon"></application>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+</manifest>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/Background">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="12dp"
+        android:padding="2dp"
+        android:background="@android:color/black">
+        <Button
+            android:text="One player"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/OnePlayerButton"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="120dp"
+            android:height="48dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/white" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:padding="2dp"
+        android:background="@android:color/black">
+        <Button
+            android:text="Two players"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TwoPlayersButton"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="120dp"
+            android:height="48dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/white" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:padding="2dp"
+        android:background="@android:color/black">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:background="@android:color/white">
+            <TextView
+                android:text="Computer victories: "
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/ComputerVictoriesTextView"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:textStyle="normal" />
+            <TextView
+                android:text="Player victories: "
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/PlayerVictoriesTextView"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@android:color/black"
+                android:textStyle="normal" />
+            <TextView
+                android:text="1. Collect five of the same figures in a row to win the game."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                android:textSize="14dp" />
+            <TextView
+                android:text="2. Use buttons to navigate through the game endless field."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                android:textSize="14dp" />
+            <TextView
+                android:text="3. Select type of the game."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

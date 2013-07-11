@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TicTacToe.Android.GameView
+            android:id="@+id/GameView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        <LinearLayout
+            android:id="@+id/MainLayout"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+            <ImageButton
+                android:src="@drawable/ScaleIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ScaleInButton"
+                android:layout_margin="2dp" />
+            <ImageButton
+                android:src="@drawable/ScaleOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ScaleOutButton"
+                android:layout_margin="2dp" />
+        </LinearLayout>
+        <ImageButton
+            android:src="@drawable/MoveLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/MoveLeftButton"
+            android:layout_margin="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true" />
+        <ImageButton
+            android:src="@drawable/MoveUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/MoveUpButton"
+            android:layout_margin="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:src="@drawable/MoveDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MoveDownButton"
+                    android:layout_margin="2dp"
+                    android:layout_column="1" />
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:src="@drawable/MoveRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MoveRightButton"
+                    android:layout_margin="2dp" />
+                <ImageButton
+                    android:src="@drawable/Home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MoveHomeButton"
+                    android:layout_margin="2dp" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+</LinearLayout>
