@@ -1,12 +1,16 @@
-﻿namespace GamePanelApplication
+﻿namespace TicTacToe
 {
-    public class Figure
+    using GamePanelApplication;
+
+    using TicTacToe.Interfaces;
+
+    public abstract class Figure : IDrawable
     {
-        public Figure(int x, int y) : this(new Point(x, y))
+        protected Figure(int x, int y) : this(new Point(x, y))
         {
         }
 
-        public Figure(Point position)
+        protected Figure(Point position)
         {
             this.Position = position;
         }
@@ -29,6 +33,8 @@
             }
         }
 
-        public int _value;
+        public FigureType Type { get; protected set; } 
+
+        public abstract void Draw(IGraphics graphics, DrawingContext context);
     }
 }

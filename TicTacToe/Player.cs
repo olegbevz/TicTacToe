@@ -1,7 +1,6 @@
-﻿using ItemsApplication;
-
-namespace GamePanelApplication
+﻿namespace GamePanelApplication
 {
+    using TicTacToe;
     using TicTacToe.Interfaces;
 
     public class Player

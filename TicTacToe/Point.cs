@@ -1,29 +1,30 @@
-﻿namespace GamePanelApplication
+﻿namespace TicTacToe
 {
-    public struct Point
+    public class Point
     {
-        private int x;
-
-        private int y;
-
         public Point(int x, int y)
         {
-            this.x = x;
+            X = x;
 
-            this.y = y;
+            Y = y;
         }
 
-        public int X 
-        { 
-            get
-            {
-                return this.x;
-            } 
-        }
+        public int X { get; private set; }
 
-        public int Y { get
+        public int Y { get; private set;}
+    }
+
+    public class FloatPoint
+    {
+        public FloatPoint(double x, double y)
         {
-            return this.y;
-        } }
+            X = x;
+
+            Y = y;
+        }
+
+        public double X { get; private set; }
+
+        public double Y { get; private set; } 
     }
 }

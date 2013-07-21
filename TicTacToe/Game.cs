@@ -1,9 +1,5 @@
 ﻿using System;
 
-using BattleGround;
-
-using ItemsApplication;
-
 namespace GamePanelApplication
 {
     using TicTacToe;
@@ -73,7 +69,7 @@ namespace GamePanelApplication
             _paintField = true;
             _field.SetFieldWidth(gameForm.Width);
             //Отображение поля
-            _field.Show();
+            _field.Draw();
             if (_rule == 2)
             {
                 //Обнуление очков перед началом игры
@@ -124,7 +120,7 @@ namespace GamePanelApplication
                 {
                     string str = "!!!";
                     //Нахождение координат ячейки
-                    Figure Item = _field._cell.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
                     //Ход компьютера
                     res = PlayerStep(Item.X, Item.Y, FigureType.X,ref Message);
                     //Если игра окончена
@@ -141,7 +137,7 @@ namespace GamePanelApplication
                 if (_step == 2)
                 {
                     string str = "!!!";
-                    Figure Item = _field._cell.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
                     res = PlayerStep(Item.X, Item.Y, FigureType.O,ref Message);
                     if (res == 2)
                     {
@@ -180,7 +176,7 @@ namespace GamePanelApplication
                 {
                     
                     string str = "!!!";
-                    Figure Item = _field._cell.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
 
                     if (PlayerStep(Item.X, Item.Y, FigureType.O,ref Message) == 2) 
                     { 
@@ -195,13 +191,10 @@ namespace GamePanelApplication
             }
             if (_step == 2)
             {
-
                 Result = PlayerStep(X, Y, FigureType.O,ref Message);
                 if (Result == 0) return Result;
                 if (Result == 2) { End(form1); return Result; }
                 _step = 1;
-               
-               
                 return Result;
             }
             return Result;
@@ -210,41 +203,34 @@ namespace GamePanelApplication
         /// Ход игрока
         /// </summary>
         /// <param name="X,У">Координаты ячейки</param>
-        
         /// <param name="value">Фишка ходящего игрока</param>
         /// <returns></returns>
         public int PlayerStep(int X, int Y, FigureType value,ref String Message)
         {
+            //Наводим цель игрока
+            _player1.SetTarget(X, Y);
+
+            if ((Message = _field.TrySetFigure(X, Y, (int)value)) != string.Empty)
+            {
+                return 0;
+            }
+
+            var figure = _field.Figures[X, Y];
             
-            //MessageBox.Show(Convert.ToString(lastX) + " , " + Convert.ToString(lastY) + " -> " + Convert.ToString(X) + " , " + Convert.ToString(Y));
-            //Если ходят крестики
-            if (value == FigureType.X)
-            {
-                //Наводим цель игрока
-                _player1.SetTarget(X, Y);
-                //Если выбранная ячейка не занята и не слишком далеко
-                if (_field.CheckItem(X,Y,1,ref Message) == 0)
-                    return 0;
-                //Нарисовать крестик
-                _field.DrawKrest(X, Y);
-            }
-            //Если ходят нолики
-            if (value == FigureType.O)
-            {
-                _player2.SetTarget(X, Y);
-                if (_field.CheckItem(X, Y,2,ref Message) == 0)
-                    return 0;
-                _field.DrawNull(X, Y);
-            }
+            // Нарисовать крестик
+            var context = new DrawingContext { CellSize = _field.cellSize, Distance = _field.dist };
+
+                figure.Draw(_field._e, context);
+
             //Проверка на победу игрока
             int end =_field.Check(X, Y, _rule);
             if (_rule == 2)
             {
                 //Суммирование очков
                 if (value == FigureType.X)
-                    _player1.AddScore(_field._cell.CalcScore());
+                    _player1.AddScore(_field.Figures.CalcScore());
                 if (value == FigureType.O)
-                    _player2.AddScore(_field._cell.CalcScore());
+                    _player2.AddScore(_field.Figures.CalcScore());
             }
             if ((end == 1) & (_rule == 1))
             {
@@ -269,7 +255,7 @@ namespace GamePanelApplication
             //Вывод сообщения
             if (_rule == 1)
             {
-                _field._line.DrawLine();
+                _field.Draw();
                 if (_step == 1) form1.ShowMessage("Победили 'крестики'! Нажмите 'Выход в меню'.");
                 if (_step == 2) form1.ShowMessage("Победили 'нолики'! Нажмите 'Выход в меню'.");
 
@@ -287,13 +273,12 @@ namespace GamePanelApplication
                     str = str + " Никто не победил. ";
                 str = str + "Нажмите 'Выход в меню'. ";
                 form1.ShowMessage(str);
-                
-
             }
           
             _step = 1;
 
         }
+
         /// <summary>
         /// Выход из игры
         /// </summary>
