@@ -192,7 +192,7 @@ namespace GamePanelApplication
             this.GoHomeButton.Size = new System.Drawing.Size(39, 30);
             this.GoHomeButton.TabIndex = 11;
             this.GoHomeButton.UseVisualStyleBackColor = true;
-            this.GoHomeButton.Click += new System.EventHandler(this.GoHomeButton_Click);
+            this.GoHomeButton.Click += new System.EventHandler(this.OnHomeButtonClick);
             // 
             // MoveLeftButton
             // 
@@ -573,7 +573,7 @@ namespace GamePanelApplication
             this.GamePanel.Size = new System.Drawing.Size(423, 423);
             this.GamePanel.TabIndex = 28;
             this.GamePanel.Visible = false;
-            this.GamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.GamePanel_Paint);
+            this.GamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.GamePanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GamePanel_MouseDown);
             // 
             // SettingsPanel

@@ -67,7 +67,7 @@
 
             canvas.DrawColor(Color.White);
 
-            Game._field.Show();
+            Game._field.Draw();
 
             base.OnDraw(canvas);
 

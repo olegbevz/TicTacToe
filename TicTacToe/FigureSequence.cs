@@ -138,6 +138,14 @@
             }
         }
 
+        public void Hide(IGraphics graphics, DrawingContext context)
+        {
+            foreach (var figure in Figures)
+            {
+                figure.Hide(graphics, context);
+            }
+        }
+
         public void DeleteFigure(int x, int y)
         {
             var figure = this[new Point(x, y)];

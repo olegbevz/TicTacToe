@@ -120,7 +120,7 @@ namespace GamePanelApplication
                 {
                     string str = "!!!";
                     //Нахождение координат ячейки
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
                     //Ход компьютера
                     res = PlayerStep(Item.X, Item.Y, FigureType.X,ref Message);
                     //Если игра окончена
@@ -137,7 +137,7 @@ namespace GamePanelApplication
                 if (_step == 2)
                 {
                     string str = "!!!";
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
                     res = PlayerStep(Item.X, Item.Y, FigureType.O,ref Message);
                     if (res == 2)
                     {
@@ -150,6 +150,7 @@ namespace GamePanelApplication
             } while (res != 2); //До тех пор пока игра не будет закончена
             form1.ShowMessage(Message);
         }
+
         /// <summary>
         /// Ход в игре
         /// </summary>
@@ -176,7 +177,7 @@ namespace GamePanelApplication
                 {
                     
                     string str = "!!!";
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field._lowCell, _field._leftCell);
+                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
 
                     if (PlayerStep(Item.X, Item.Y, FigureType.O,ref Message) == 2) 
                     { 
@@ -288,7 +289,7 @@ namespace GamePanelApplication
             _paintField = false;
             _gameIsGoing = false;
 
-            _field.Hide();
+            _field.Dispose();
             _step = 1;
         }
     }  

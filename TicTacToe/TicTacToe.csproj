@@ -36,9 +36,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grid.cs" />
     <Compile Include="Models\Cross.cs" />
     <Compile Include="Models\FigureFactory.cs" />
-    <Compile Include="Models\IDrawable.cs" />
+    <Compile Include="Interfaces\IDrawable.cs" />
     <Compile Include="Models\DrawingContext.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Models\Figure.cs" />

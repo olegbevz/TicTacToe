@@ -6,9 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ItemsApplication;
-using BattleGround;
-
 
 namespace GamePanelApplication
 {
@@ -297,16 +294,16 @@ namespace GamePanelApplication
             OptionPanel.Visible = false;
         }
 
-        private void GamePanel_Paint(object sender, PaintEventArgs e)
+        private void OnPaint(object sender, PaintEventArgs e)
         {
             if (game._paintField == true)
             {                
                 game._field.SetFieldWidth(GamePanel.Height);
-                game._field.Show();
+                game._field.Draw();
             }
         }
 
-        private void GoHomeButton_Click(object sender, EventArgs e)
+        private void OnHomeButtonClick(object sender, EventArgs e)
         {
             if ((game._field._leftCell != 0) || (game._field._lowCell != 0))
             {                

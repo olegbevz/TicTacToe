@@ -1,7 +1,22 @@
-﻿namespace TicTacToe
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Point.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the Point type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace TicTacToe
 {
     public class Point
     {
+        public Point()
+            : this(0, 0)
+        {
+            
+        }
+
         public Point(int x, int y)
         {
             X = x;

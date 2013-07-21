@@ -6,6 +6,7 @@ using Android.Widget;
 
 namespace TicTacToe.Android
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using TicTacToe.Android.Score;
@@ -124,11 +125,11 @@ namespace TicTacToe.Android
             {
                  if (!GameView.Game._gameIsGoing && GameView.GameMode == GameMode.OnePlayer)
                 {
-                    var lastFigure = GameView.Game._field._cell._cells.LastOrDefault();
+                    var lastFigure = (GameView.Game._field.Figures as IEnumerable<Figure>).LastOrDefault();
 
                     if (lastFigure != null)
                     {
-                        var winner = lastFigure._value == 1 ? PlayerType.Player : PlayerType.Computer;
+                        var winner = lastFigure.Type == FigureType.X ? PlayerType.Player : PlayerType.Computer;
 
                         var repository = new ScoreRepository("score.xml");
 
