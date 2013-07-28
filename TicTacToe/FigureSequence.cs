@@ -213,46 +213,39 @@
         {
             return (this.dir.Hdir1 + this.dir.Hdir2 + this.dir.Vdir1 + this.dir.Vdir2 + this.dir.Ddir1 + this.dir.Ddir2 + this.dir.Ddir3 + this.dir.Ddir4);
         }
-        public Figure ComputerStep(ref string message,int lowCell,int leftCell)
+        public Point ComputerStep(ref string message)
         {
             Random random = new Random();
           //  double res = GetCellValue(5,5,ref message);
             
             //Проверка последнего хода игрока
-            message = "Размер матрицы:" + Convert.ToString(this.MaxLeft) + "," + Convert.ToString(this.MaxLow) + " -> "
-             + Convert.ToString(this.MaxRight) + "," + Convert.ToString(this.MaxHeight);
             int maxX = this.MaxRight - this.MaxLeft;
             int maxY = this.MaxHeight - this.MaxLow;
-         
-           double[,] valueMatr = new  double[maxX,maxY];
-           message = message + "\n Матрица: \n";
-           
-           Figure Item = null;
 
-           double maxValue = 0; 
+            Point point = null;
+
+            double maxValue = 0; 
 
              //Поиск максимальной оценки
-           for (int indY = this.MaxLow; indY <= this.MaxHeight; indY++)
+            for (var y = this.MaxLow; y <= this.MaxHeight; y++)
             {
-                for (int indX = this.MaxLeft; indX <= this.MaxRight; indX++)
+                for (var x = this.MaxLeft; x <= this.MaxRight; x++)
                 {
-                    double CurValue = this.GetCellValue(indX,indY,ref message);
+                    double CurValue = this.GetCellValue(x, y, ref message);
                     
-                    message = message + Convert.ToString(CurValue) + " ";
                     if (maxValue<CurValue)
                     {
                         maxValue=CurValue;
-                        Item = FigureFactory.Create(indX - leftCell, indY - lowCell, FigureType.O);
+                        point = new Point(x, y);
                     }
                     if (maxValue == CurValue)
                     {
                         if (random.Next(2) == 1)
                         {
-                            Item = FigureFactory.Create(indX - leftCell, indY - lowCell, FigureType.O);
+                            point = new Point(x, y);
                         }
                     }
                 }
-                message = message + "\n" ;
             }
              /*
              for (int indY = maxLow; indY <= maxHigh; indY++)
@@ -282,7 +275,7 @@
             //Item._y = Item._y - lowCell;
         
             //MessageBox.Show("Ход компьютера");
-            return Item;
+            return point;
         }
         
         double CalcValue()

@@ -20,46 +20,32 @@
 
         private void DrawHorizontalLines(IGraphics graphics, DrawingContext context, Color color)
         {
-            var startPoint = Figure.CalculatePixelPoint(new Point(1, 1), context);
+            var startPoint = new Point(0, 0);
 
             for (var y = 0; y < context.Rows; y++)
             {
                 graphics.DrawLine(
                     new MonoPen(color, 1),
                     0,
-                    startPoint.Y + y * context.CellSize,
-                    context.Width - 2 * context.Distance - 1,
-                    startPoint.Y + y * context.CellSize);
+                    startPoint.Y + ((y + 1) * context.CellSize),
+                    context.Width,
+                    startPoint.Y + ((y + 1) * context.CellSize));
             }
-
-            graphics.DrawLine(
-                new MonoPen(color, 1),
-                context.Distance,
-                context.Height - context.Distance,
-                context.Width - 2 * context.Distance - 1,
-                context.Height - context.Distance);
         }
 
         private void DrawVerticalLines(IGraphics graphics, DrawingContext context, Color color)
         {
-            var startPoint = Figure.CalculatePixelPoint(new Point(1, 1), context);
+            var startPoint = new Point(0, 0);
 
             for (var x = 0; x <= context.Columns; x++)
             {
                 graphics.DrawLine(
                     new MonoPen(color, 1),
-                    startPoint.X + x * context.CellSize,
-                    context.Distance,
-                    startPoint.X + x * context.CellSize,
-                    context.Height - 2 * context.Distance - 1);
+                    startPoint.X + ((x + 1) * context.CellSize),
+                    0,
+                    startPoint.X + ((x + 1) * context.CellSize),
+                    context.Height);
             }
-
-            graphics.DrawLine(
-                new MonoPen(color, 1),
-                context.Width - context.Distance,
-                context.Distance,
-                context.Width - context.Distance,
-                context.Height - 2 * context.Distance - 1);
         }
     }
 }

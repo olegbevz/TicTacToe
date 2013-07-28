@@ -14,9 +14,9 @@
             switch (type)
             {
                 case FigureType.X:
-                    return new Cross(x, y);
+                    return new Tic(x, y);
                 case FigureType.O:
-                    return new Zero(x, y);
+                    return new Tac(x, y);
                 default:
                     throw new ArgumentOutOfRangeException("type");
             }

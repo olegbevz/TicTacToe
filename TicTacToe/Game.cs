@@ -116,9 +116,9 @@ namespace GamePanelApplication
                 {
                     string str = "!!!";
                     //Нахождение координат ячейки
-                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
+                    var position = Field.Figures.ComputerStep(ref str);
                     //Ход компьютера
-                    res = PlayerStep(Item.X, Item.Y, FigureType.X,ref Message);
+                    res = PlayerStep(position, FigureType.X, ref Message);
                     //Если игра окончена
                     if (res == 2)
                     {
@@ -133,8 +133,8 @@ namespace GamePanelApplication
                 if (_step == 2)
                 {
                     string str = "!!!";
-                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
-                    res = PlayerStep(Item.X, Item.Y, FigureType.O,ref Message);
+                    var position = Field.Figures.ComputerStep(ref str);
+                    res = PlayerStep(position, FigureType.O,ref Message);
                     if (res == 2)
                     {
                         End(form1);
@@ -156,26 +156,29 @@ namespace GamePanelApplication
         {
            // string Message="";
             int Result = 0;
+
+            var worldPoint = Field.ConvertToWorld(new Point(X, Y));
             
             //Если ходит первый игрок
             if (_step == 1)
             {
-                Result = PlayerStep(X, Y, FigureType.X,ref Message);
+                Result = PlayerStep(worldPoint, FigureType.X,ref Message);
                 if (Result == 0) return Result;
                 if (Result == 2) { End(form1); return Result; }
-                //Смена хода
+                // Смена хода
                 if (_gamers == GameMode.TwoPlayers)
                 {
                     _step = 2;                   
                 }
-                //Ход компьютера
+
+                // Ход компьютера
                 if (_gamers == GameMode.OnePlayer)
                 {
                     
                     string str = "!!!";
-                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
+                    var position = Field.Figures.ComputerStep(ref str);
 
-                    if (PlayerStep(Item.X, Item.Y, FigureType.O,ref Message) == 2) 
+                    if (PlayerStep(position, FigureType.O, ref Message) == 2) 
                     { 
                         _step = 2; 
                         End(form1); 
@@ -188,7 +191,7 @@ namespace GamePanelApplication
             }
             if (_step == 2)
             {
-                Result = PlayerStep(X, Y, FigureType.O,ref Message);
+                Result = PlayerStep(worldPoint, FigureType.O,ref Message);
                 if (Result == 0) return Result;
                 if (Result == 2) { End(form1); return Result; }
                 _step = 1;
@@ -203,19 +206,17 @@ namespace GamePanelApplication
         /// <param name="X,У">Координаты ячейки</param>
         /// <param name="value">Фишка ходящего игрока</param>
         /// <returns></returns>
-        public int PlayerStep(int X, int Y, FigureType value,ref String Message)
+        public int PlayerStep(Point point, FigureType value,ref String Message)
         {
-            var worldPoint = Field.ConvertToWorld(new Point(X, Y));
-
             // Наводим цель игрока
-            Field.Player1Target.Position.Set(worldPoint);
+            Field.Player1Target.Position.Set(point);
 
-            if ((Message = Field.TrySetFigure(worldPoint, value)) != string.Empty)
+            if ((Message = Field.TrySetFigure(point, value)) != string.Empty)
             {
                 return 0;
             }
 
-            var figure = Field.Figures[worldPoint];
+            var figure = Field.Figures[point];
             
             // Нарисовать крестик
             var context = Field.CreateDrawingContext();
@@ -223,7 +224,7 @@ namespace GamePanelApplication
             figure.Draw(Field._e, context);
 
             //Проверка на победу игрока
-            int end = Field.Check(worldPoint.X, worldPoint.Y, _rule);
+            int end = Field.Check(point.X, point.Y, _rule);
             if (_rule == 2)
             {
                 //Суммирование очков

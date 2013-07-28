@@ -84,6 +84,12 @@
         {
             var context = CreateDrawingContext();
 
+            // Вывод линии
+            if (_line != null)
+            {
+                _line.DrawShadow(_e, context);
+            }
+
             // Рисуем решетку
             Grid.Draw(_e, context);
 
@@ -104,7 +110,6 @@
             return new DrawingContext
                               {
                                   CellSize = this.cellSize,
-                                  Distance = this.dist,
                                   Columns = this.Columns,
                                   Rows = this.Rows,
                                   Height = this.height,
@@ -235,9 +240,9 @@
         }
 
         // Ход игрока
-        public Figure ComputerStep(ref string message)
+        public Point ComputerStep(ref string message)
         {
-            return this.Figures.ComputerStep(ref message, (int)Origin.X, (int)Origin.Y);
+            return this.Figures.ComputerStep(ref message);
         }
     }
 }

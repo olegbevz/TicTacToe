@@ -6,8 +6,6 @@
 
         public int CellSize { get; set; }
 
-        public int Distance { get; set; }
-
         public int Width { get; set; }
 
         public int Height { get; set; }

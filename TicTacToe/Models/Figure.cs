@@ -37,15 +37,15 @@
 
         public static Point CalculatePixelPoint(Point point, DrawingContext context)
         {
-            var x = context.Distance + (context.CellSize * (point.X - context.Origin.X - 1));
-            var y = context.Distance + (context.CellSize * (point.Y - context.Origin.Y - 1));
+            var x = context.CellSize * (point.X - context.Origin.X - 1);
+            var y = context.CellSize * (point.Y - context.Origin.Y - 1);
 
             return new Point((int)x, (int)y);
         }
 
         public abstract void Draw(IGraphics graphics, DrawingContext context);
 
-        public void Hide(IGraphics graphics, DrawingContext context)
+        public virtual void Hide(IGraphics graphics, DrawingContext context)
         {
             // Начальные координаты
             var startPixelPoint = CalculatePixelPoint(Position, context);

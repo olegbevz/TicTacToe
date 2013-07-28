@@ -11,15 +11,15 @@ namespace TicTacToe
 {
     using TicTacToe.Interfaces;
 
-    public class Zero : Figure
+    public class Tac : Figure
     {
-        public Zero(int x, int y)
+        public Tac(int x, int y)
             : base(x, y)
         {
             this.Type = FigureType.O;
         }
 
-        public Zero(Point position)
+        public Tac(Point position)
             : base(position)
         {
             this.Type = FigureType.O;
@@ -27,11 +27,21 @@ namespace TicTacToe
 
         public override void Draw(IGraphics graphics, DrawingContext context)
         {
+            this.Draw(graphics, context, Color.Blue, Color.Gray);
+        }
+
+        public override void Hide(IGraphics graphics, DrawingContext context)
+        {
+            this.Draw(graphics, context, Color.White, Color.White);
+        }
+
+        private void Draw(IGraphics graphics, DrawingContext context, Color color, Color shadowColor)
+        {
             // Центр круга
             var radius = context.CellSize / 2;
             var diameter = radius / 2;
 
-            var startPoint = CalculatePixelPoint(Position, context);
+            var startPoint = CalculatePixelPoint(this.Position, context);
 
             var pixelCenter = new Point(startPoint.X + diameter, startPoint.Y + diameter);
 
@@ -39,24 +49,19 @@ namespace TicTacToe
 
             var thikness = context.CellSize / 8;
 
-            using (var pen = new MonoPen(Color.Gray, thikness))
-            {
-                graphics.DrawEllipse(
-                    pen, 
-                    pixelCenter.X - context.ShadowShift + widthOffset,
-                    pixelCenter.Y + context.ShadowShift, 
-                    radius - (widthOffset * 2), 
-                    radius);
-            }
-
-            using (var pen = new MonoPen(Color.Blue, thikness))
+            using (var pen = new MonoPen(shadowColor, thikness))
             {
                 graphics.DrawEllipse(
                     pen,
-                    pixelCenter.X + widthOffset,
-                    pixelCenter.Y, 
-                    radius - (widthOffset * 2), 
+                    pixelCenter.X - context.ShadowShift + widthOffset,
+                    pixelCenter.Y + context.ShadowShift,
+                    radius - (widthOffset * 2),
                     radius);
+            }
+
+            using (var pen = new MonoPen(color, thikness))
+            {
+                graphics.DrawEllipse(pen, pixelCenter.X + widthOffset, pixelCenter.Y, radius - (widthOffset * 2), radius);
             }
         }
     }
