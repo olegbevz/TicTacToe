@@ -45,7 +45,13 @@
             this.MaxHeight = 10;
             this.MaxLow = 1;
         }
-        public void SetFigure(int x, int y, int value)
+
+        public void SetFigure(Point point, FigureType figureType)
+        {
+            SetFigure(point.X, point.Y, figureType);
+        }
+
+        public void SetFigure(int x, int y, FigureType figureType)
         {
             // Проверка не занята ли клетка
             if (this.GetFigureType(x, y) != FigureType.Empty)
@@ -59,7 +65,7 @@
                 throw new Exception("Ячейка находится слишком далеко");
             }
 
-            _figures.Add(FigureFactory.Create(x, y, value));
+            _figures.Add(FigureFactory.Create(x, y, figureType));
 
             // Установка новых границ
             UpdateBoundsByLastPoint(x, y);

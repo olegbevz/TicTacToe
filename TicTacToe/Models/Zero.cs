@@ -1,7 +1,14 @@
-﻿namespace TicTacToe
-{
-    using GamePanelApplication;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Zero.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the Zero type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
+namespace TicTacToe
+{
     using TicTacToe.Interfaces;
 
     public class Zero : Figure
@@ -21,20 +28,35 @@
         public override void Draw(IGraphics graphics, DrawingContext context)
         {
             // Центр круга
-            var rad = context.CellSize / 2;
-            var centX = rad / 2 + context.Distance + context.CellSize * (this.X - 1);
-            var centY = rad / 2 + context.Distance + context.CellSize * (this.Y - 1);
+            var radius = context.CellSize / 2;
+            var diameter = radius / 2;
 
-            var widthOffset = (int)(rad * 0.1);
+            var startPoint = CalculatePixelPoint(Position, context);
 
-            using (var pen = new MonoPen(Color.Gray, 8))
+            var pixelCenter = new Point(startPoint.X + diameter, startPoint.Y + diameter);
+
+            var widthOffset = (int)(radius * 0.1);
+
+            var thikness = context.CellSize / 8;
+
+            using (var pen = new MonoPen(Color.Gray, thikness))
             {
-                graphics.DrawEllipse(pen, centX - context.ShadowShift + widthOffset, centY + context.ShadowShift, rad - (widthOffset * 2), rad);
+                graphics.DrawEllipse(
+                    pen, 
+                    pixelCenter.X - context.ShadowShift + widthOffset,
+                    pixelCenter.Y + context.ShadowShift, 
+                    radius - (widthOffset * 2), 
+                    radius);
             }
 
-            using (var pen = new MonoPen(Color.Blue, 8))
+            using (var pen = new MonoPen(Color.Blue, thikness))
             {
-                graphics.DrawEllipse(pen, centX + widthOffset, centY, rad - (widthOffset * 2), rad);
+                graphics.DrawEllipse(
+                    pen,
+                    pixelCenter.X + widthOffset,
+                    pixelCenter.Y, 
+                    radius - (widthOffset * 2), 
+                    radius);
             }
         }
     }

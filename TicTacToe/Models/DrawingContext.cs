@@ -2,6 +2,8 @@
 {
     public class DrawingContext
     {
+        public Point Origin { get; set; }
+
         public int CellSize { get; set; }
 
         public int Distance { get; set; }

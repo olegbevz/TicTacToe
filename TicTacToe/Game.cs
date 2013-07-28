@@ -9,26 +9,33 @@ namespace GamePanelApplication
 
     public class Game
     {   
-        
         public GameMode _gamers;
-        //Номер ходящего игрока
+
+        // Номер ходящего игрока
         public int _step;
-        //Вариант правил игры
+
+        // Вариант правил игры
         public int _rule;
-        //Предел времени
+
+        // Предел времени
         public int _maxTime;
-        //Запущена игра или нет
+
+        // Запущена игра или нет
         public bool _gameIsGoing;
-        //Отображать поле или нет
+
+        // Отображать поле или нет
         public bool _paintField;
-        //Игровое поле
-        public Field _field;
-        //Игроки
-        public Player _player1;
-        public Player _player2;
+
+        // Игровое поле
+        public Field Field;
+
+        // Игроки
+        public Player Player1;
+        public Player Player2;
         
-        //Графика
+        // Графика
         public IGraphics _graph;
+
         public Game()
         {
             //Первые ходят крестики
@@ -60,21 +67,21 @@ namespace GamePanelApplication
         public void Start(IGameView gameForm)
         {
             //Инициализация переменных
-            _field = new Field(gameForm.CreateGraphics(), gameForm.Width, gameForm.Height);
-            _player1 = new Player(FigureType.X, gameForm.CreateGraphics());
-            _player2 = new Player(FigureType.O, gameForm.CreateGraphics());
-            _player1._bUseTarget = true;
-            _player2._bUseTarget = true;
+            Field = new Field(gameForm.CreateGraphics(), gameForm.Width, gameForm.Height);
+            Player1 = new Player(FigureType.X, gameForm.CreateGraphics());
+            Player2 = new Player(FigureType.O, gameForm.CreateGraphics());
+            Player1._bUseTarget = true;
+            Player2._bUseTarget = true;
             _gameIsGoing = true;
             _paintField = true;
-            _field.SetFieldWidth(gameForm.Width);
+            Field.SetFieldWidth(gameForm.Width);
             //Отображение поля
-            _field.Draw();
+            Field.Draw();
             if (_rule == 2)
             {
                 //Обнуление очков перед началом игры
-                _player1._score = 0;
-                _player2._score = 0;
+                Player1._score = 0;
+                Player2._score = 0;
                 //Запуск таймера
                 var timer = new System.Timers.Timer();
 
@@ -88,21 +95,10 @@ namespace GamePanelApplication
         /// </summary>
         /// <param name="dx">отколонение по Х</param>
         /// <param name="dy">отклонение по У</param>
-        public void MoveGameField(int dx,int dy)
+        public void MoveGameField(int dx, int dy)
         {
-            //Спрятать цели игроков
-            _player1.HideTarget();
-            _player2.HideTarget();
-            //Передвинуть само поле
-            _field.Move(-dx, -dy);
-            //Передвинуть координаты целей
-            _player1.MoveTargetXY(dx, dy);
-            _player2.MoveTargetXY(dx, dy);
-            //Отображение целей
-            if (_player1._bUseTarget)
-                _player1.DrawTarget();
-            if (_player2._bUseTarget)
-                _player2.DrawTarget();
+            // Передвинуть само поле
+            Field.Move(-dx, -dy);
         }
         /// <summary>
         /// Игра двух компьютеров
@@ -115,12 +111,12 @@ namespace GamePanelApplication
             int res = 0;
             do
             {
-                //Ход первого игрока
+                // Ход первого игрока
                 if (_step == 1)
                 {
                     string str = "!!!";
                     //Нахождение координат ячейки
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
+                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
                     //Ход компьютера
                     res = PlayerStep(Item.X, Item.Y, FigureType.X,ref Message);
                     //Если игра окончена
@@ -133,11 +129,11 @@ namespace GamePanelApplication
                     
 
                 }
-                //Ход второго игрока
+                // Ход второго игрока
                 if (_step == 2)
                 {
                     string str = "!!!";
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
+                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
                     res = PlayerStep(Item.X, Item.Y, FigureType.O,ref Message);
                     if (res == 2)
                     {
@@ -177,7 +173,7 @@ namespace GamePanelApplication
                 {
                     
                     string str = "!!!";
-                    Figure Item = _field.Figures.ComputerStep(ref str, _field.Origin.X, _field.Origin.Y);
+                    Figure Item = Field.Figures.ComputerStep(ref str, (int)Field.Origin.X, (int)Field.Origin.Y);
 
                     if (PlayerStep(Item.X, Item.Y, FigureType.O,ref Message) == 2) 
                     { 
@@ -200,6 +196,7 @@ namespace GamePanelApplication
             }
             return Result;
         }
+
         /// <summary>
         /// Ход игрока
         /// </summary>
@@ -208,30 +205,32 @@ namespace GamePanelApplication
         /// <returns></returns>
         public int PlayerStep(int X, int Y, FigureType value,ref String Message)
         {
-            //Наводим цель игрока
-            _player1.SetTarget(X, Y);
+            var worldPoint = Field.ConvertToWorld(new Point(X, Y));
 
-            if ((Message = _field.TrySetFigure(X, Y, (int)value)) != string.Empty)
+            // Наводим цель игрока
+            Field.Player1Target.Position.Set(worldPoint);
+
+            if ((Message = Field.TrySetFigure(worldPoint, value)) != string.Empty)
             {
                 return 0;
             }
 
-            var figure = _field.Figures[X, Y];
+            var figure = Field.Figures[worldPoint];
             
             // Нарисовать крестик
-            var context = new DrawingContext { CellSize = _field.cellSize, Distance = _field.dist };
+            var context = Field.CreateDrawingContext();
 
-                figure.Draw(_field._e, context);
+            figure.Draw(Field._e, context);
 
             //Проверка на победу игрока
-            int end =_field.Check(X, Y, _rule);
+            int end = Field.Check(worldPoint.X, worldPoint.Y, _rule);
             if (_rule == 2)
             {
                 //Суммирование очков
                 if (value == FigureType.X)
-                    _player1.AddScore(_field.Figures.CalcScore());
+                    Player1.AddScore(Field.Figures.CalcScore());
                 if (value == FigureType.O)
-                    _player2.AddScore(_field.Figures.CalcScore());
+                    Player2.AddScore(Field.Figures.CalcScore());
             }
             if ((end == 1) & (_rule == 1))
             {
@@ -248,15 +247,13 @@ namespace GamePanelApplication
             //Блокирование поля
             _gameIsGoing = false;
 
-            _player1.HideTarget();
-            _player2.HideTarget();
-            _player1._bUseTarget = false;
-            _player2._bUseTarget = false;
+            Player1._bUseTarget = false;
+            Player2._bUseTarget = false;
 
             //Вывод сообщения
             if (_rule == 1)
             {
-                _field.Draw();
+                Field.Draw();
                 if (_step == 1) form1.ShowMessage("Победили 'крестики'! Нажмите 'Выход в меню'.");
                 if (_step == 2) form1.ShowMessage("Победили 'нолики'! Нажмите 'Выход в меню'.");
 
@@ -266,11 +263,11 @@ namespace GamePanelApplication
             {
                 string str = "";
                 
-                if (_player1._score > _player2._score)
+                if (Player1._score > Player2._score)
                     str = str + " Победили 'крестики' ";
-                if (_player1._score < _player2._score)
+                if (Player1._score < Player2._score)
                     str = str + " Победили 'нолики' ";
-                if (_player1._score == _player2._score)
+                if (Player1._score == Player2._score)
                     str = str + " Никто не победил. ";
                 str = str + "Нажмите 'Выход в меню'. ";
                 form1.ShowMessage(str);
@@ -289,7 +286,7 @@ namespace GamePanelApplication
             _paintField = false;
             _gameIsGoing = false;
 
-            _field.Dispose();
+            Field.Dispose();
             _step = 1;
         }
     }  

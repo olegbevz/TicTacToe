@@ -55,7 +55,7 @@
 
                 this.Game.Start(this);
 
-                Game._field.cellSize = 50;
+                Game.Field.cellSize = 50;
 
                 if (Game._gamers == GameMode.TwoComputers)
                 {
@@ -67,7 +67,7 @@
 
             canvas.DrawColor(Color.White);
 
-            Game._field.Draw();
+            Game.Field.Draw();
 
             base.OnDraw(canvas);
 
@@ -81,7 +81,7 @@
             {
                 int x = 0, y = 0;
 
-                Game._field.HitPosition((int)e.GetX(), (int)e.GetY(), out x, out y);
+                Game.Field.HitPosition((int)e.GetX(), (int)e.GetY(), out x, out y);
 
                 int Result = this.Game.Go(x, y, this, ref Message);
 

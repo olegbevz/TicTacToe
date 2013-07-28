@@ -1,7 +1,5 @@
 ﻿namespace TicTacToe
 {
-    using GamePanelApplication;
-
     using TicTacToe.Interfaces;
 
     public class Cross : Figure
@@ -20,24 +18,50 @@
 
         public override void Draw(IGraphics graphics, DrawingContext context)
         {
+            var borderOffset = context.CellSize / 5;
+
             // Начальные координаты
-            var startX = 5 * context.Distance + context.CellSize * (this.X - 1);
-            var startY = 5 * context.Distance + context.CellSize * (this.Y - 1);
+            var startPoint = CalculatePixelPoint(Position, context);
+            startPoint.Shift(borderOffset, borderOffset);
 
             // Конечные координаты
-            var endX = startX + context.CellSize - 8 * context.Distance;
-            var endY = startY + context.CellSize - 8 * context.Distance;
+            var endPoint = CalculatePixelPoint(new Point(Position.X + 1, Position.Y + 1), context);
+            endPoint.Shift(-borderOffset, -borderOffset);
 
-            using (var pen = new MonoPen(Color.Gray, 8))
+            var thikness = context.CellSize / 8;
+
+            using (var pen = new MonoPen(Color.Gray, thikness))
             {
-                graphics.DrawLine(pen, startX - context.ShadowShift, startY + context.ShadowShift, endX - context.ShadowShift, endY + context.ShadowShift);
-                graphics.DrawLine(pen, startX - context.ShadowShift, endY + context.ShadowShift, endX - context.ShadowShift, startY + context.ShadowShift);
+                graphics.DrawLine(
+                    pen, 
+                    startPoint.X - context.ShadowShift, 
+                    startPoint.Y + context.ShadowShift, 
+                    endPoint.X - context.ShadowShift,
+                    endPoint.Y + context.ShadowShift);
+                
+                graphics.DrawLine(
+                    pen, 
+                    startPoint.X - context.ShadowShift,
+                    endPoint.Y + context.ShadowShift,
+                    endPoint.X - context.ShadowShift, 
+                    startPoint.Y + context.ShadowShift);
             }
 
-            using (var pen = new MonoPen(Color.Red, 8))
+            using (var pen = new MonoPen(Color.Red, thikness))
             {
-                graphics.DrawLine(pen, startX, startY, endX, endY);
-                graphics.DrawLine(pen, startX, endY, endX, startY);
+                graphics.DrawLine(
+                    pen, 
+                    startPoint.X, 
+                    startPoint.Y,
+                    endPoint.X,
+                    endPoint.Y);
+
+                graphics.DrawLine(
+                    pen, 
+                    startPoint.X,
+                    endPoint.Y,
+                    endPoint.X, 
+                    startPoint.Y);
             }
         }
     }

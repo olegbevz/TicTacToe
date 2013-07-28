@@ -151,7 +151,7 @@ namespace GamePanelApplication
                 int Result = game.Go(X,Y,this,ref Message);
                 MessageLabel.Text = Message;
                 if (game._rule == 2)
-                    ShowScore(game._player1._score,game._player2._score);
+                    ShowScore(game.Player1._score,game.Player2._score);
                 if (game._gamers == GameMode.TwoPlayers)
                     if (Result!=0)
                         ChangeStep();
@@ -160,7 +160,7 @@ namespace GamePanelApplication
 
         private void MoveUpButton_Click(object sender, EventArgs e)
         {
-            game.MoveGameField(0,1);            
+            game.MoveGameField(0, 1);            
         }
 
         private void MoveDownButton_Click(object sender, EventArgs e)
@@ -170,12 +170,12 @@ namespace GamePanelApplication
 
         private void MoveLeftButton_Click(object sender, EventArgs e)
         {
-            game.MoveGameField(1,0);            
+            game.MoveGameField(1, 0);            
         }
 
         private void MoveRigthButton_Click(object sender, EventArgs e)
         {
-            game.MoveGameField(-1,0);        
+            game.MoveGameField(-1, 0);        
         }
 
         private void OptionButton_Click(object sender, EventArgs e)
@@ -250,7 +250,7 @@ namespace GamePanelApplication
             {
                 GamePanel.Left = Convert.ToInt32(this.MessagePanel.Left + (this.MessagePanel.Width / 2) - GamePanel.Width / 2);
                 GamePanel.Top = Convert.ToInt32(this.MessagePanel.Top/2 - this.GamePanel.Height/2);
-                game._field.SetFieldWidth(GamePanel.Height);
+                game.Field.SetFieldWidth(GamePanel.Height);
 
                 
                
@@ -298,16 +298,16 @@ namespace GamePanelApplication
         {
             if (game._paintField == true)
             {                
-                game._field.SetFieldWidth(GamePanel.Height);
-                game._field.Draw();
+                game.Field.SetFieldWidth(GamePanel.Height);
+                game.Field.Draw();
             }
         }
 
         private void OnHomeButtonClick(object sender, EventArgs e)
         {
-            if ((game._field._leftCell != 0) || (game._field._lowCell != 0))
-            {                
-                game.MoveGameField(game._field._leftCell, game._field._lowCell);
+            if ((game.Field.Origin.X != 0) || (game.Field.Origin.Y != 0))
+            {
+                game.MoveGameField((int)game.Field.Origin.X, (int)game.Field.Origin.Y);
             }
         }
 

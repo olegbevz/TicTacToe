@@ -36,7 +36,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Grid.cs" />
+    <Compile Include="Models\Grid.cs" />
     <Compile Include="Models\Cross.cs" />
     <Compile Include="Models\FigureFactory.cs" />
     <Compile Include="Interfaces\IDrawable.cs" />
@@ -47,6 +47,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="Interfaces\IGraphics.cs" />
+    <Compile Include="Models\PlayerTarget.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="FigureSequence.cs" />
     <Compile Include="Models\CrossLine.cs" />

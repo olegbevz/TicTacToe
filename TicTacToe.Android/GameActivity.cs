@@ -69,51 +69,54 @@ namespace TicTacToe.Android
 
         private void OnScaleIn(object sender, EventArgs e)
         {
-            GameView.Game._field.cellSize+=5;
+            GameView.Game.Field.cellSize+=5;
 
             GameView.Invalidate();
         }
 
         private void OnScaleOut(object sender, EventArgs e)
         {
-            GameView.Game._field.cellSize-=5;
+            GameView.Game.Field.cellSize-=5;
 
             GameView.Invalidate();
         }
 
         private void OnMoveLeft(object sender, EventArgs e)
         {
-            GameView.Game._field.Move(-1, 0);
+            GameView.Game.Field.Move(-1, 0);
 
             GameView.Invalidate();
         }
 
         private void OnMoveRight(object sender, EventArgs e)
         {
-            GameView.Game._field.Move(1, 0);
+            GameView.Game.Field.Move(1, 0);
 
             GameView.Invalidate();
         }
 
         private void OnMoveUp(object sender, EventArgs e)
         {
-            GameView.Game._field.Move(0, -1);
+            GameView.Game.Field.Move(0, -1);
 
             GameView.Invalidate();
         }
 
         private void OnMoveDown(object sender, EventArgs e)
         {
-            GameView.Game._field.Move(0, 1);
+            GameView.Game.Field.Move(0, 1);
 
             GameView.Invalidate();
         }
 
         private void OnMoveHome(object sender, EventArgs e)
         {
-            if ((GameView.Game._field._leftCell != 0) || (GameView.Game._field._lowCell != 0))
+            if ((GameView.Game.Field.Origin.X != 0) || 
+                (GameView.Game.Field.Origin.Y != 0))
             {
-                GameView.Game.MoveGameField(GameView.Game._field._leftCell, GameView.Game._field._lowCell);
+                GameView.Game.MoveGameField(
+                    GameView.Game.Field.Origin.X,
+                    GameView.Game.Field.Origin.Y);
 
                 GameView.Invalidate();
             }
@@ -125,7 +128,7 @@ namespace TicTacToe.Android
             {
                  if (!GameView.Game._gameIsGoing && GameView.GameMode == GameMode.OnePlayer)
                 {
-                    var lastFigure = (GameView.Game._field.Figures as IEnumerable<Figure>).LastOrDefault();
+                    var lastFigure = (GameView.Game.Field.Figures as IEnumerable<Figure>).LastOrDefault();
 
                     if (lastFigure != null)
                     {

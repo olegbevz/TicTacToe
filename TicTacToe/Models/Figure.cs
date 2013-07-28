@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe
 {
-    using GamePanelApplication;
+    using System;
 
     using TicTacToe.Interfaces;
 
@@ -35,19 +35,32 @@
 
         public FigureType Type { get; protected set; } 
 
+        public static Point CalculatePixelPoint(Point point, DrawingContext context)
+        {
+            var x = context.Distance + (context.CellSize * (point.X - context.Origin.X - 1));
+            var y = context.Distance + (context.CellSize * (point.Y - context.Origin.Y - 1));
+
+            return new Point((int)x, (int)y);
+        }
+
         public abstract void Draw(IGraphics graphics, DrawingContext context);
 
         public void Hide(IGraphics graphics, DrawingContext context)
         {
             // Начальные координаты
-            var startX = context.Distance + 1 + context.CellSize * (X - 1);
-            var startY = context.Distance + 1 + context.CellSize * (Y - 1);
-            var endX = startX + context.CellSize - context.Distance;
-            var endY = startY + context.CellSize - context.Distance;
+            var startPixelPoint = CalculatePixelPoint(Position, context);
+            startPixelPoint.Shift(0, context.CellSize / 2);
+            var endPoint = CalculatePixelPoint(new Point(Position.X + 1, Position.Y), context);
+            startPixelPoint.Shift(0, context.CellSize / 2);
 
             // Конечные координаты
-            for (var i = 0; i <= (context.CellSize - 2); i++)
-                graphics.DrawLine(new MonoPen(Color.White, 1), startX, startY + i, endX, startY + i);
+            //for (var i = 0; i <= (context.CellSize - 2); i++)
+                graphics.DrawLine(
+                    new MonoPen(Color.White, context.CellSize), 
+                    startPixelPoint.X, 
+                    startPixelPoint.Y, 
+                    endPoint.X, 
+                    endPoint.Y);
         }
     }
 }

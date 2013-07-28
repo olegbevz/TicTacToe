@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IInAppBillingService.cs" />
     <Compile Include="MenuActivity.cs" />
     <Compile Include="AndroidGraphics.cs" />
     <Compile Include="GameActivity.cs" />

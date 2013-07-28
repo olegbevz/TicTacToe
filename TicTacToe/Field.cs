@@ -9,17 +9,24 @@
         //Ширина ячейки и отступ от краев поля
         public int cellSize = 32;
         public int dist = 3;
-        //Координаты текущего положения матрицы просмотра
+        
+        // Координаты текущего положения матрицы просмотра
         public Point Origin = new Point();
+
         //Размеры поля в пикселах
         private int _width;
         private int height;
+        
         //Список ячеек
         public FigureSequence Figures = new FigureSequence();
         public Grid Grid = new Grid();
         public IGraphics _e;
+        
         //Зачеркивающая линия
         public CrossLine _line;
+
+        public PlayerTarget Player1Target = new PlayerTarget(0, 0, FigureType.X);
+        public PlayerTarget Player2Target = new PlayerTarget(0, 0, FigureType.O);
 
         public int Columns
         {
@@ -40,7 +47,6 @@
         public Field(IGraphics e, int width, int height)
         {
             this._e = e;
-            this._line = new CrossLine(this._e);
             this._width = width;
             this.height = height;
             //this.Left = 76;
@@ -62,14 +68,13 @@
         {
             this._width = Width;
         }
-        //Конвертирование координат на матрице просмотра в мировые координаты
-        private int ConvertXToWorld(int X)
+
+        // Конвертирование координат на матрице просмотра в мировые координаты
+        public Point ConvertToWorld(Point localPoint)
         {
-            return X + Origin.X;
-        }
-        private int ConvertYToWorld(int Y)
-        {
-            return Y + Origin.Y;
+            return new Point(
+                localPoint.X + Origin.X, 
+                localPoint.Y + Origin.Y);
         }
 
         /// <summary>
@@ -85,13 +90,16 @@
             this.Figures.Draw(_e, context);
 
             // Вывод линии
-            if (_line.bUseLine)
+            if (_line != null)
             {
                 _line.Draw(_e, context);
             }
+
+            //Player1Target.Draw(_e, context);
+            //Player2Target.Draw(_e, context);
         }
 
-        private DrawingContext CreateDrawingContext()
+        public DrawingContext CreateDrawingContext()
         {
             return new DrawingContext
                               {
@@ -100,21 +108,29 @@
                                   Columns = this.Columns,
                                   Rows = this.Rows,
                                   Height = this.height,
-                                  Width = this._width
+                                  Width = this._width,
+                                  Origin = this.Origin
                               };
         }
 
         /// <summary>
         /// Очистка поля
         /// </summary>
-        public void Clear()
+        public void Hide()
         {
             var context = this.CreateDrawingContext();
 
+            //Grid.Hide(_e, context);
+
             Figures.Hide(_e, context);
 
-            if (this._line.bUseLine)
+            if (_line != null)
+            {
                 this._line.Hide(_e, context);
+            }
+
+            //Player1Target.Hide(_e, context);
+            //Player2Target.Hide(_e, context);
         }
 
         /// <summary>
@@ -124,11 +140,11 @@
         /// <param name="y"></param>
         /// <param name="value">Значение ячейки</param>
         /// <returns></returns>
-        public string TrySetFigure(int x, int y, int value)
+        public string TrySetFigure(Point point, FigureType figureType)
         {
             try
             {
-                Figures.SetFigure(this.ConvertXToWorld(x), this.ConvertYToWorld(y), value);
+                Figures.SetFigure(point, figureType);
 
                 return string.Empty;
             }
@@ -147,9 +163,9 @@
         /// <returns></returns>
         public int Check(int x, int y, int gameRule)
         {
-            var value = this.Figures.GetFigureType(this.ConvertXToWorld(x), this.ConvertYToWorld(y));
+            var value = this.Figures.GetFigureType(x, y);
            
-            if (this.Figures.Check(this.ConvertXToWorld(x),this.ConvertYToWorld(y), value) == 1)
+            if (this.Figures.Check(x, y, value) == 1)
             {
                 if (gameRule == 2) return 0;
                 int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
@@ -189,16 +205,16 @@
 
                 }
                 //Устанавливаем координаты линии зачеркивания
-                this._line.SetXY(x1,y1,x2,y2);
+                this._line = new CrossLine(x1, y1, x2, y2);
                 return 1;
             }
             return 0;
         }
         
-        //Спрятать поле
+        // Спрятать поле
         public void Dispose()
         {
-            this._line.bUseLine = false;
+            this._line = null;
             //Очистка списка ячеек
             this.Figures.DeleteAll();
             Origin = null;
@@ -207,38 +223,21 @@
         /// <summary>
         /// Переместить поле
         /// </summary>
-        /// <param name="dX">Координаты</param>
-        /// <param name="dY">отклонения</param>
-        public void Move(int dX, int dY)
+        /// <param name="shiftX">Координаты</param>
+        /// <param name="shiftY">отклонения</param>
+        public void Move(int shiftX, int shiftY)
         {
-            var context = this.CreateDrawingContext();
+            this.Hide();
 
-            if (this._line.bUseLine)
-            {
-                _line.Hide(_e, context);
-                _line.Move(dX, dY);
-            }
+            Origin = new Point(Origin.X + shiftX, Origin.Y + shiftY);
 
-            Figures.Hide(_e, context);
-
-            Origin = new Point(Origin.X + dX, Origin.Y + dY);
-
-            // Рисуем решетку
-            Grid.Draw(_e, context);
-
-            this.Figures.Draw(_e, context);
-
-            // Вывод линии
-            if (_line.bUseLine)
-            {
-                _line.Draw(_e, context);
-            }
+            this.Draw();
         }
 
         // Ход игрока
         public Figure ComputerStep(ref string message)
         {
-            return this.Figures.ComputerStep(ref message, Origin.X, Origin.Y);
+            return this.Figures.ComputerStep(ref message, (int)Origin.X, (int)Origin.Y);
         }
     }
 }
