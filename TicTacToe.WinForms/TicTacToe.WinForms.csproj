@@ -169,6 +169,18 @@
       <Name>TicTacToe</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Blue.jpg" />
+    <None Include="Resources\Down.jpg" />
+    <None Include="Resources\home.jpg" />
+    <None Include="Resources\Left.jpg" />
+    <None Include="Resources\Rigth.jpg" />
+    <None Include="Resources\Up.jpg" />
+    <None Include="Resources\Крестик.jpg" />
+    <None Include="Resources\КрестикиНолики.ico" />
+    <None Include="Resources\КрестНолик.jpg" />
+    <None Include="Resources\Нолик.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
