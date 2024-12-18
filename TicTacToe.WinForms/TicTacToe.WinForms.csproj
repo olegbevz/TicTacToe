@@ -164,7 +164,7 @@
     <None Include="Resources\Blue.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TicTacToe\TicTacToe.csproj">
+    <ProjectReference Include="..\TicTacToe\TicTacToe.csproj">
       <Project>{5F251F80-4145-4AB0-BE16-59A8E170B1BD}</Project>
       <Name>TicTacToe</Name>
     </ProjectReference>
