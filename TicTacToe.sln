@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.Android", "TicTacToe.Android\TicTacToe.Android.csproj", "{4A6BEFDA-A120-4FA4-97C1-A5F287033E77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{5F251F80-4145-4AB0-BE16-59A8E170B1BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.WinForms", "TicTacToe.WinForms\Krest\Krest\TicTacToe.WinForms.csproj", "{A6D57180-B6EA-4FA7-8C00-0C23693EFC35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.WinForms", "TicTacToe.WinForms\TicTacToe.WinForms.csproj", "{A6D57180-B6EA-4FA7-8C00-0C23693EFC35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
